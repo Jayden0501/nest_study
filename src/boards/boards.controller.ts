@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Board } from './board.model';
 import { BoardsService, PeopleService } from './boards.service';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -7,9 +9,13 @@ export class BoardsController {
   //constructor(생성자)에 BoardsService라는 타입을 가지는 boardsService 프로퍼티를 넣는다.
   constructor(private boardsService: BoardsService) {}
   //이 괄호 안에서 종속성 주입이 일어난다.
-  @Get()
-  getAllBoard() {
+  @Get('/')
+  getAllBoard(): Board[] {
     return this.boardsService.getAllBoards();
+  }
+  @Post()
+  createBoard(@Body() createBoardDto: CreateBoardDto) {
+    return this.boardsService.createBoard(createBoardDto);
   }
 }
 

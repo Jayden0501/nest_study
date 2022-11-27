@@ -11,5 +11,9 @@ import { BoardsService, PeopleService } from './boards.service';
 @Module({
   controllers: [BoardsController, PeopleController],
   providers: [BoardsService, PeopleService],
+  //providers에 등록하고, service 자체에서도 injectable()로 감싸
+  //종속성을 주입한다.
+  //근데 컨트롤러에서 private로 감싸는 것도 종속성 주입에 필요한데
+  //할게 많네
 })
 export class BoardsModule {}
