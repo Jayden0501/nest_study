@@ -15,13 +15,13 @@ export class BoardsService {
       status: BoardStatus.PRIVATE,
     },
     {
-      id: 'admin',
+      id: 'LA',
       title: 'admin',
       description: 'adminUser',
       status: BoardStatus.PRIVATE,
     },
     {
-      id: 'admin',
+      id: 'JD',
       title: 'admin',
       description: 'adminUser',
       status: BoardStatus.PRIVATE,
@@ -36,11 +36,28 @@ export class BoardsService {
     const { title, description } = createBoardDto;
     const board: Board = {
       id: uuid(),
-      title,
-      description,
+      title: title,
+      description: description,
       status: BoardStatus.PUBLIC,
     };
+    console.log(board);
     this.boards.push(board);
+    return board;
+  }
+
+  getBoardById(id: string): Board {
+    return this.boards.find((board) => {
+      return board.id === id;
+    });
+  }
+
+  deleteBoard(id: string): void {
+    this.boards = this.boards.filter((board) => board.id !== id);
+  }
+
+  updateBoardStatus(id: string, status: BoardStatus): Board {
+    const board = this.getBoardById(id);
+    board.status = status;
     return board;
   }
 }
