@@ -14,7 +14,7 @@ import {
 import { Board, BoardStatus } from './board.model';
 import { BoardsService, PeopleService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
-import { GetuserboardDto } from './dto/get-user-board.dot';
+import { GetuserboardDto } from './dto/get-user-board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -43,7 +43,8 @@ export class BoardsController {
 
   @Delete('/:id')
   deleteBoard(@Param('id') id: string): void {
-    this.boardsService.deleteBoard(id);
+    const found = this.boardsService.getBoardById(id);
+    this.boardsService.deleteBoard(found.id);
   }
 
   @Patch('/:id/status')
