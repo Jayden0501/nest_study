@@ -1,3 +1,4 @@
+import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import {
   Body,
   Controller,
@@ -14,7 +15,6 @@ import {
 import { Board, BoardStatus } from './board.model';
 import { BoardsService, PeopleService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
-import { GetuserboardDto } from './dto/get-user-board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -28,11 +28,7 @@ export class BoardsController {
   }
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
-    const found = this.boardsService.getBoardById(id);
-    if (!found) {
-      throw new NotFoundException();
-    }
-    return found;
+    return this.boardsService.getBoardById(id);
   }
 
   @Post()
@@ -43,16 +39,15 @@ export class BoardsController {
 
   @Delete('/:id')
   deleteBoard(@Param('id') id: string): void {
-    const found = this.boardsService.getBoardById(id);
-    this.boardsService.deleteBoard(found.id);
+    this.boardsService.deleteBoard(id);
   }
 
   @Patch('/:id/status')
   updateBoardStatus(
-    @Param('id', ParseIntPipe) id: string,
-    @Body('status') status: BoardStatus,
+    @Param('id') id: string,
+    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
   ) {
-    this.boardsService.updateBoardStatus(id, status);
+    return this.boardsService.updateBoardStatus(id, status);
   }
 }
 
